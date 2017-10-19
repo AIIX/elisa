@@ -28,7 +28,7 @@ if (Qt5Quick_FOUND AND Qt5Widgets_FOUND)
 
         MediaServer.qml
         Theme.qml
-        PlatformIntegration.qml
+        ElisaPlatformIntegration.qml
         LabelWithToolTip.qml
 
         windows/WindowsTheme.qml

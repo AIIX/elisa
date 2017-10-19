@@ -18,10 +18,10 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.2 as Controls1
 import QtQuick.Window 2.2
-import QtQml.Models 2.1
+import QtQml.Models 2.2
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 
@@ -51,7 +51,7 @@ FocusScope {
 
     id: mediaServerEntry
 
-    Action {
+    Controls1.Action {
         id: clearAndEnqueue
         text: i18nc("Clear play list and enqueue current track", "Play Now and Replace Play List")
         iconName: "media-playback-start"
@@ -61,7 +61,7 @@ FocusScope {
         }
     }
 
-    Action {
+    Controls1.Action {
         id: enqueue
         text: i18nc("Enqueue current track", "Enqueue")
         iconName: "media-track-add-amarok"
@@ -184,7 +184,10 @@ FocusScope {
 
                                 opacity: 1
                                 visible: opacity > 0.1
-                                action: enqueue
+                                text: enqueue.text
+                                enabled: enqueue.enabled
+
+                                onClicked: enqueue.trigger(this)
 
                                 Layout.preferredHeight: elisaTheme.delegateHeight * 0.75
                                 Layout.preferredWidth: elisaTheme.delegateHeight * 0.75
@@ -196,7 +199,10 @@ FocusScope {
 
                                 opacity: 1
                                 visible: opacity > 0.1
-                                action: clearAndEnqueue
+                                text: clearAndEnqueue.text
+                                enabled: clearAndEnqueue.enabled
+
+                                onClicked: clearAndEnqueue.trigger(this)
 
                                 Layout.preferredHeight: elisaTheme.delegateHeight * 0.75
                                 Layout.preferredWidth: elisaTheme.delegateHeight * 0.75

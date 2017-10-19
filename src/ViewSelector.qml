@@ -18,9 +18,8 @@
  */
 
 import QtQuick 2.7
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
-import QtQml.Models 2.1
+import QtQuick.Controls 2.2
+import QtQml.Models 2.2
 import QtGraphicalEffects 1.0
 
 FocusScope {
@@ -37,9 +36,8 @@ FocusScope {
         }
 
         ScrollView {
-            flickableItem.boundsBehavior: Flickable.StopAtBounds
-
             focus: true
+            clip: true
 
             anchors.fill: parent
 

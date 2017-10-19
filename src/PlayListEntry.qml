@@ -19,7 +19,8 @@
 
 import QtQuick 2.5
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 import org.mgallien.QmlExtension 1.0
@@ -52,7 +53,7 @@ FocusScope {
 
     signal startPlayback()
 
-    Action {
+    Controls1.Action {
         id: removeFromPlayList
         text: i18nc("Remove current track from play list", "Remove")
         iconName: "list-remove"
@@ -61,7 +62,7 @@ FocusScope {
         }
     }
 
-    Action {
+    Controls1.Action {
         id: playNow
         text: i18nc("Play now current track from play list", "Play Now")
         iconName: "media-playback-start"
@@ -247,7 +248,12 @@ FocusScope {
                         opacity: 0
 
                         visible: opacity > 0.1
-                        action: playNow
+                        text: playNow.text
+                        //iconName: playNow.iconName
+                        enabled: playNow.enabled
+
+                        onClicked: playNow.trigger(this)
+
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
                     }
 
@@ -260,7 +266,12 @@ FocusScope {
                         opacity: 0
 
                         visible: opacity > 0.1
-                        action: removeFromPlayList
+                        text: removeFromPlayList.text
+                        //iconName: removeFromPlayList.iconName
+                        enabled: removeFromPlayList.enabled
+
+                        onClicked: removeFromPlayList.trigger(this)
+
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
                     }
 

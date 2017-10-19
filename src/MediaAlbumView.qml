@@ -19,11 +19,13 @@
 
 import QtQuick 2.5
 import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.2
-import QtQml.Models 2.1
-import org.mgallien.QmlExtension 1.0
+import QtQuick.Controls 1.4 as Controls1
+import QtQuick.Controls 2.2
+import QtQml.Models 2.2
+import Qt.labs.platform 1.0 as PlatformIntegration
 import QtQuick.Layouts 1.2
+
+import org.mgallien.QmlExtension 1.0
 
 FocusScope {
     id: topListing
@@ -103,13 +105,13 @@ FocusScope {
             image: (topListing.albumArtUrl ? topListing.albumArtUrl : elisaTheme.albumCover)
             tracksCount: topListing.tracksCount
 
-            enqueueAction: Action {
+            enqueueAction: Controls1.Action {
                 text: i18nc("Add whole album to play list", "Enqueue")
                 iconName: "media-track-add-amarok"
                 onTriggered: topListing.playListModel.enqueue(topListing.albumData)
             }
 
-            clearAndEnqueueAction: Action {
+            clearAndEnqueueAction: Controls1.Action {
                 text: i18nc("Clear play list and add whole album to play list", "Play Now and Replace Play List")
                 iconName: "media-playback-start"
                 onTriggered: {
@@ -137,10 +139,9 @@ FocusScope {
         }
 
         ScrollView {
-            flickableItem.boundsBehavior: Flickable.StopAtBounds
-
             Layout.fillHeight: true
             Layout.fillWidth: true
+            clip: true
 
             focus: true
 
@@ -209,12 +210,20 @@ FocusScope {
                         isFirstTrackOfDisc: model.isFirstTrackOfDisc
                         isSingleDiscAlbum: topListing.isSingleDiscAlbum
 
-                        contextMenu: Menu {
-                            MenuItem {
-                                action: entry.clearAndEnqueueAction
+                        contextMenu: PlatformIntegration.Menu {
+                            PlatformIntegration.MenuItem {
+                                iconName: entry.clearAndEnqueueAction.iconName
+                                text: entry.clearAndEnqueueAction.text
+                                enabled: entry.clearAndEnqueueAction.enabled
+
+                                onTriggered: entry.clearAndEnqueueAction.trigger(this)
                             }
-                            MenuItem {
-                                action: entry.enqueueAction
+                            PlatformIntegration.MenuItem {
+                                iconName: entry.enqueueAction.iconName
+                                text: entry.enqueueAction.text
+                                enabled: entry.enqueueAction.enabled
+
+                                onTriggered: entry.enqueueAction.trigger(this)
                             }
                         }
 

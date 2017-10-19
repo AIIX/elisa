@@ -17,12 +17,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
-import QtQuick 2.5
+import QtQuick 2.7
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.2
-import QtQml.Models 2.1
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
+import QtQml.Models 2.2
 import QtGraphicalEffects 1.0
 
 import org.mgallien.QmlExtension 1.0
@@ -67,13 +67,13 @@ Item {
             playerControl: rootElement.playerControl
             image: Qt.resolvedUrl(elisaTheme.artistImage)
 
-            enqueueAction: Action {
+            enqueueAction: Controls1.Action {
                 text: i18nc("Add all tracks from artist to play list", "Enqueue")
                 iconName: "media-track-add-amarok"
                 onTriggered: rootElement.playListModel.enqueue(rootElement.artistName)
             }
 
-            clearAndEnqueueAction: Action {
+            clearAndEnqueueAction: Controls1.Action {
                 text: i18nc("Clear play list and add all tracks from artist to play list", "Play Now and Replace Play List")
                 iconName: "media-playback-start"
                 onTriggered: {
@@ -108,7 +108,7 @@ Item {
 
             ScrollView {
                 anchors.fill: parent
-                flickableItem.boundsBehavior: Flickable.StopAtBounds
+                clip: true
 
                 GridView {
                     id: contentDirectoryView

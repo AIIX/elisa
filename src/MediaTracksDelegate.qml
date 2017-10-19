@@ -19,7 +19,8 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.2
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 import org.mgallien.QmlExtension 1.0
@@ -47,7 +48,7 @@ FocusScope {
     signal clicked()
     signal rightClicked()
 
-    Action {
+    Controls1.Action {
         id: clearAndEnqueue
         text: i18nc("Clear play list and enqueue current track", "Play Now and Replace Play List")
         iconName: "media-playback-start"
@@ -57,7 +58,7 @@ FocusScope {
         }
     }
 
-    Action {
+    Controls1.Action {
         id: enqueue
         text: i18nc("Enqueue current track", "Enqueue")
         iconName: "media-track-add-amarok"
@@ -187,7 +188,12 @@ FocusScope {
 
                     opacity: 0
                     visible: opacity > 0.1
-                    action: enqueue
+                    text: enqueue.text
+                    //iconName: enqueue.iconName
+                    enabled: enqueue.enabled
+
+                    onClicked: enqueue.trigger(this)
+
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
                 }
 
@@ -199,7 +205,11 @@ FocusScope {
 
                     opacity: 0
                     visible: opacity > 0.1
-                    action: clearAndEnqueue
+                    text: clearAndEnqueue.text
+                    //iconName: clearAndEnqueue.iconName
+                    enabled: clearAndEnqueue.enabled
+
+                    onClicked: clearAndEnqueue.trigger(this)
 
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
                     Layout.rightMargin: !LayoutMirroring.enabled ? elisaTheme.layoutHorizontalMargin : 0

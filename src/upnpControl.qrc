@@ -34,7 +34,6 @@
         <file alias="media-skip-forward.svg">windows/media-skip-forward.svg</file>
         <file alias="player-volume-muted.svg">windows/player-volume-muted.svg</file>
         <file alias="player-volume.svg">windows/player-volume.svg</file>
-        <file>PlatformIntegration.qml</file>
         <file>LabelWithToolTip.qml</file>
         <file>MediaAllTracksView.qml</file>
         <file>MediaTracksDelegate.qml</file>
@@ -42,6 +41,7 @@
         <file>TrackImportNotification.qml</file>
         <file>TopNotificationItem.qml</file>
         <file>ViewSelector.qml</file>
+        <file>ElisaPlatformIntegration.qml</file>
     </qresource>
     <qresource prefix="/+windows">
         <file alias="Theme.qml">windows/WindowsTheme.qml</file>

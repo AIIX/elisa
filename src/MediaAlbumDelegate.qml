@@ -17,12 +17,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
-import QtQuick 2.4
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
+import QtQuick 2.7
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Window 2.2
-import QtQml.Models 2.1
-import QtQuick.Layouts 1.2
+import QtQml.Models 2.2
 import QtGraphicalEffects 1.0
 
 import org.mgallien.QmlExtension 1.0
@@ -44,7 +44,7 @@ FocusScope {
 
     id: mediaServerEntry
 
-    Action {
+    Controls1.Action {
         id: enqueueAction
 
         text: i18nc("Add whole album to play list", "Enqueue")
@@ -52,30 +52,35 @@ FocusScope {
         onTriggered: mediaServerEntry.playListModel.enqueue(mediaServerEntry.albumData)
     }
 
-    Action {
+    Component {
+        id: childItem
+
+        MediaAlbumView {
+            stackView: mediaServerEntry.stackView
+            playListModel: mediaServerEntry.playListModel
+            musicListener: mediaServerEntry.musicListener
+            playerControl: mediaServerEntry.playerControl
+            albumArtUrl: mediaServerEntry.image
+            albumName: mediaServerEntry.title
+            artistName: mediaServerEntry.artist
+            tracksCount: count
+            isSingleDiscAlbum: mediaServerEntry.isSingleDiscAlbum
+            albumData: mediaServerEntry.albumData
+            albumId: mediaServerEntry.albumId
+        }
+    }
+
+    Controls1.Action {
         id: openAction
 
         text: i18nc("Open album view", "Open Album")
         iconName: 'document-open-folder'
         onTriggered: {
-            stackView.push(Qt.resolvedUrl("MediaAlbumView.qml"),
-                           {
-                               'stackView': stackView,
-                               'playListModel': playListModel,
-                               'musicListener': mediaServerEntry.musicListener,
-                               'playerControl': playerControl,
-                               'albumArtUrl': image,
-                               'albumName': title,
-                               'artistName': artist,
-                               'tracksCount': count,
-                               'isSingleDiscAlbum': mediaServerEntry.isSingleDiscAlbum,
-                               'albumData': mediaServerEntry.albumData,
-                               'albumId': mediaServerEntry.albumId
-                           })
+            stackView.push(childItem)
         }
     }
 
-    Action {
+    Controls1.Action {
         id: enqueueAndPlayAction
 
         text: i18nc("Clear play list and add whole album to play list", "Play Now and Replace Play List")
@@ -152,37 +157,110 @@ FocusScope {
                         }
                     }
 
-                    Row {
+                    RowLayout {
                         anchors.centerIn: parent
+                        spacing: 0
 
                         ToolButton {
                             id: enqueueButton
 
-                            action: enqueueAction
-                            focus: true
+                            hoverEnabled: true
 
-                            width: elisaTheme.delegateToolButtonSize
-                            height: elisaTheme.delegateToolButtonSize
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            ToolTip.visible: hovered
+                            ToolTip.text: enqueueAction.text
+
+                            enabled: enqueueAction.enabled
+
+                            onClicked: enqueueAction.trigger(this)
+
+                            contentItem: Image {
+                                source: "image://icon/" + enqueueAction.iconName
+
+                                sourceSize.width: elisaTheme.delegateToolButtonSize
+                                sourceSize.height: elisaTheme.delegateToolButtonSize
+
+                                fillMode: Image.PreserveAspectFit
+                                mirror: LayoutMirroring.enabled
+
+                                anchors.fill: parent
+                            }
+
+                            Layout.minimumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.minimumHeight: elisaTheme.delegateToolButtonSize
+                            Layout.preferredWidth: elisaTheme.delegateToolButtonSize
+                            Layout.preferredHeight: elisaTheme.delegateToolButtonSize
+                            Layout.maximumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.maximumHeight: elisaTheme.delegateToolButtonSize
                         }
 
                         ToolButton {
                             id: openButton
 
-                            action: openAction
-                            focus: true
+                            hoverEnabled: true
 
-                            width: elisaTheme.delegateToolButtonSize
-                            height: elisaTheme.delegateToolButtonSize
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            ToolTip.visible: hovered
+                            ToolTip.text: openAction.text
+
+                            enabled: openAction.enabled
+
+                            onClicked: openAction.trigger(this)
+
+                            contentItem: Image {
+                                source: "image://icon/" + openAction.iconName
+
+                                sourceSize.width: elisaTheme.delegateToolButtonSize
+                                sourceSize.height: elisaTheme.delegateToolButtonSize
+
+                                fillMode: Image.PreserveAspectFit
+                                mirror: LayoutMirroring.enabled
+
+                                anchors.fill: parent
+                            }
+
+                            Layout.minimumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.minimumHeight: elisaTheme.delegateToolButtonSize
+                            Layout.preferredWidth: elisaTheme.delegateToolButtonSize
+                            Layout.preferredHeight: elisaTheme.delegateToolButtonSize
+                            Layout.maximumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.maximumHeight: elisaTheme.delegateToolButtonSize
                         }
 
                         ToolButton {
                             id: enqueueAndPlayButton
 
-                            action: enqueueAndPlayAction
-                            focus: true
+                            hoverEnabled: true
 
-                            width: elisaTheme.delegateToolButtonSize
-                            height: elisaTheme.delegateToolButtonSize
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            ToolTip.visible: hovered
+                            ToolTip.text: enqueueAndPlayAction.text
+
+                            enabled: enqueueAndPlayAction.enabled
+
+                            onClicked: enqueueAndPlayAction.trigger(this)
+
+                            contentItem: Image {
+                                source: "image://icon/" + enqueueAndPlayAction.iconName
+
+                                sourceSize.width: elisaTheme.delegateToolButtonSize
+                                sourceSize.height: elisaTheme.delegateToolButtonSize
+
+                                fillMode: Image.PreserveAspectFit
+                                mirror: LayoutMirroring.enabled
+
+                                anchors.fill: parent
+                            }
+
+                            Layout.minimumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.minimumHeight: elisaTheme.delegateToolButtonSize
+                            Layout.preferredWidth: elisaTheme.delegateToolButtonSize
+                            Layout.preferredHeight: elisaTheme.delegateToolButtonSize
+                            Layout.maximumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.maximumHeight: elisaTheme.delegateToolButtonSize
                         }
                     }
                 }

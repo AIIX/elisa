@@ -17,12 +17,14 @@
  * Boston, MA 02110-1301, USA.
  */
 
-import QtQuick 2.5
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
+import QtQuick 2.7
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 import QtQml.Models 2.1
+import Qt.labs.platform 1.0 as PlatformIntegration
+
 import org.mgallien.QmlExtension 1.0
 
 FocusScope {
@@ -39,7 +41,7 @@ FocusScope {
 
     id: topItem
 
-    Action {
+    Controls1.Action {
         id: clearPlayList
         text: i18nc("Remove all tracks from play list", "Clear Play List")
         iconName: "list-remove"
@@ -56,7 +58,7 @@ FocusScope {
         }
     }
 
-    Action {
+    Controls1.Action {
         id: showCurrentTrack
         text: i18nc("Show currently played track inside playlist", "Show Current Track")
         iconName: 'media-show-active-track-amarok'
@@ -150,10 +152,9 @@ FocusScope {
         }
 
         ScrollView {
-            flickableItem.boundsBehavior: Flickable.StopAtBounds
-
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
 
             focus: true
 
@@ -253,12 +254,20 @@ FocusScope {
                             playListModel: topItem.playListModel
                             playListControler: topItem.playListControler
 
-                            contextMenu: Menu {
-                                MenuItem {
-                                    action: entry.clearPlayListAction
+                            contextMenu: PlatformIntegration.Menu {
+                                PlatformIntegration.MenuItem {
+                                    text: entry.clearPlayListAction.text
+                                    shortcut: entry.clearPlayListAction.shortcut
+                                    iconName: entry.clearPlayListAction.iconName
+                                    onTriggered: entry.clearPlayListAction.trigger()
+                                    visible: entry.clearPlayListAction.text !== ""
                                 }
-                                MenuItem {
-                                    action: entry.playNowAction
+                                PlatformIntegration.MenuItem {
+                                    text: entry.playNowAction.text
+                                    shortcut: entry.playNowAction.shortcut
+                                    iconName: entry.playNowAction.iconName
+                                    onTriggered: entry.playNowAction.trigger()
+                                    visible: entry.playNowAction.text !== ""
                                 }
                             }
 
@@ -299,11 +308,21 @@ FocusScope {
                 anchors.fill: parent
 
                 ToolButton {
-                    action: clearPlayList
+                    text: clearPlayList.text
+                    //iconName: clearPlayList.iconName
+                    enabled: clearPlayList.enabled
+
+                    onClicked: clearPlayList.trigger(this)
+
                     Layout.bottomMargin: elisaTheme.layoutVerticalMargin
                 }
                 ToolButton {
-                    action: showCurrentTrack
+                    text: showCurrentTrack.text
+                    //iconName: showCurrentTrack.iconName
+                    enabled: showCurrentTrack.enabled
+
+                    onClicked: showCurrentTrack.trigger(this)
+
                     Layout.bottomMargin: elisaTheme.layoutVerticalMargin
                 }
                 Item {

@@ -19,7 +19,7 @@
 
 import QtQuick 2.7
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import QtQml.Models 2.2
 import org.mgallien.QmlExtension 1.0
 
@@ -87,8 +87,7 @@ FocusScope {
     ScrollView {
         id: expandedView
 
-        flickableItem.boundsBehavior: Flickable.StopAtBounds
-        verticalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+        clip: true
 
         anchors {
             top: parent.top
@@ -144,9 +143,9 @@ FocusScope {
 
                     itemMessage: message
                     itemMainButtonText: mainButtonText
-                    itemMainButtonIconName: mainButtonIconName
+                    //itemMainButtonIconName: mainButtonIconName
                     itemSecondaryButtonText: secondaryButtonText
-                    itemSecondaryButtonIconName: secondaryButtonIconName
+                    //itemSecondaryButtonIconName: secondaryButtonIconName
 
                     ListView.onRemove: SequentialAnimation {
                         PropertyAction { target: currentDelegate; property: "ListView.delayRemove"; value: true }

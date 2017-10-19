@@ -20,7 +20,8 @@
 import QtQml 2.2
 import QtQuick 2.5
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Window 2.0
 
 Item {
@@ -36,17 +37,13 @@ Item {
     property var enqueueAction
     property var clearAndEnqueueAction
 
-    Action {
+    Controls1.Action {
         id: goPreviousAction
         text: i18nc("navigate back in the views stack", "Back")
         iconName: (Qt.application.layoutDirection == Qt.RightToLeft) ? "go-next" : "go-previous"
         onTriggered:
         {
-            if (listingView.depth > 1) {
-                listingView.pop()
-            } else {
-                parentStackView.pop()
-            }
+            parentStackView.pop(1)
         }
     }
 
@@ -56,7 +53,12 @@ Item {
         spacing: 0
 
         ToolButton {
-            action: goPreviousAction
+            text: goPreviousAction.text
+            //iconName: goPreviousAction.iconName
+            enabled: goPreviousAction.enabled
+
+            onClicked: goPreviousAction.trigger(this)
+
             Layout.leftMargin: !LayoutMirroring.enabled ? elisaTheme.layoutHorizontalMargin : 0
             Layout.rightMargin: LayoutMirroring.enabled ? elisaTheme.layoutHorizontalMargin : 0
         }
@@ -149,13 +151,23 @@ Item {
         }
 
         Button {
-            action: enqueueAction
+            text: enqueueAction.text
+            //iconName: enqueueAction.iconName
+            enabled: enqueueAction.enabled
+
+            onClicked: enqueueAction.trigger(this)
+
             Layout.leftMargin: !LayoutMirroring.enabled ? elisaTheme.layoutHorizontalMargin : 0
             Layout.rightMargin: LayoutMirroring.enabled ? elisaTheme.layoutHorizontalMargin : 0
         }
 
         Button {
-            action: clearAndEnqueueAction
+            text: clearAndEnqueueAction.text
+            //iconName: clearAndEnqueueAction.iconName
+            enabled: clearAndEnqueueAction.enabled
+
+            onClicked: clearAndEnqueueAction.trigger(this)
+
             Layout.leftMargin: elisaTheme.layoutHorizontalMargin
             Layout.rightMargin: elisaTheme.layoutHorizontalMargin
         }

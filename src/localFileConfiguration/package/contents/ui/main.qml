@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.7
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.3
@@ -79,7 +79,7 @@ Item {
                     }
 
                     ToolButton {
-                        iconName: 'list-remove'
+                        //iconName: 'list-remove'
 
                         anchors.top: parent.top
                         anchors.right: parent.right
@@ -102,10 +102,10 @@ Item {
         anchors.fill: parent
 
         ScrollView {
-            flickableItem.boundsBehavior: Flickable.StopAtBounds
-
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            clip: true
 
             ListView {
                 id:pathList

@@ -18,12 +18,14 @@
  */
 
 import QtQuick 2.7
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
-import org.mgallien.QmlExtension 1.0
+import Qt.labs.platform 1.0 as PlatformIntegration
 import Qt.labs.settings 1.0
+
+import org.mgallien.QmlExtension 1.0
 
 ApplicationWindow {
     id: mainWindow
@@ -77,7 +79,7 @@ ApplicationWindow {
         property bool playControlItemMuted : false
     }
 
-    Action {
+    Controls1.Action {
         id: qmlQuitAction
         text: quitApplication.text
         shortcut: quitApplication.shortcut
@@ -107,7 +109,7 @@ ApplicationWindow {
         }
     }
 
-    PlatformIntegration {
+    ElisaPlatformIntegration {
         id: platformInterface
 
         playListModel: playListModelItem
@@ -301,20 +303,23 @@ ApplicationWindow {
         onArtistModified: allArtistsModel.artistModified(modifiedArtist)
     }
 
-    Menu {
+    PlatformIntegration.Menu {
         id: applicationMenu
         title: i18nc("open application menu", "Application Menu")
 
-        MenuItem {
-            action: qmlQuitAction
+        PlatformIntegration.MenuItem {
+            text: qmlQuitAction.text
+            shortcut: qmlQuitAction.shortcut
+            iconName: qmlQuitAction.iconName
+            onTriggered: qmlQuitAction.trigger()
             visible: qmlQuitAction.text !== ""
         }
 
-        MenuSeparator {
+        PlatformIntegration.MenuSeparator {
             visible: qmlQuitAction.text !== ""
         }
 
-        MenuItem {
+        PlatformIntegration.MenuItem {
             text: helpAction.text
             shortcut: helpAction.shortcut
             iconName: elisa.iconName(helpAction.icon)
@@ -322,11 +327,11 @@ ApplicationWindow {
             visible: helpAction.text !== ""
         }
 
-        MenuSeparator {
+        PlatformIntegration.MenuSeparator {
             visible: helpAction.text !== ""
         }
 
-        MenuItem {
+        PlatformIntegration.MenuItem {
             text: reportBugAction.text
             shortcut: reportBugAction.shortcut
             iconName: elisa.iconName(reportBugAction.icon)
@@ -334,11 +339,11 @@ ApplicationWindow {
             visible: reportBugAction.text !== ""
         }
 
-        MenuSeparator {
+        PlatformIntegration.MenuSeparator {
             visible: reportBugAction.text !== ""
         }
 
-        MenuItem {
+        PlatformIntegration.MenuItem {
             text: configureAction.text
             shortcut: configureAction.shortcut
             iconName: 'configure'
@@ -346,7 +351,7 @@ ApplicationWindow {
             visible: configureAction.text !== ""
         }
 
-        MenuItem {
+        PlatformIntegration.MenuItem {
             text: configureShortcutsAction.text
             shortcut: configureShortcutsAction.shortcut
             iconName: elisa.iconName(configureShortcutsAction.icon)
@@ -354,11 +359,11 @@ ApplicationWindow {
             visible: configureShortcutsAction.text !== ""
         }
 
-        MenuSeparator {
+        PlatformIntegration.MenuSeparator {
             visible: configureAction.text !== "" || configureShortcutsAction.text !== ""
         }
 
-        MenuItem {
+        PlatformIntegration.MenuItem {
             text: aboutAppAction.text
             shortcut: aboutAppAction.shortcut
             iconName: elisa.iconName(aboutAppAction.icon)
@@ -367,11 +372,11 @@ ApplicationWindow {
         }
     }
 
-    Action {
+    Controls1.Action {
         id: applicationMenuAction
         text: i18nc("open application menu", "Application Menu")
         iconName: "application-menu"
-        onTriggered: applicationMenu.popup()
+        onTriggered: applicationMenu.open()
     }
 
     Rectangle {
@@ -425,7 +430,10 @@ ApplicationWindow {
                     ToolButton {
                         id: menuButton
 
-                        action: applicationMenuAction
+                        text: applicationMenuAction.text
+                        //iconName: applicationMenuAction.iconName
+
+                        onClicked: applicationMenuAction.trigger()
 
                         z: 2
 

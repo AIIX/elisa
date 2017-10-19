@@ -19,7 +19,7 @@
 
 import QtQuick 2.7
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import org.mgallien.QmlExtension 1.0
 
 FocusScope {
@@ -32,9 +32,9 @@ FocusScope {
 
     property alias itemMessage: notificationText.text
     property alias itemMainButtonText: mainButton.text
-    property alias itemMainButtonIconName: mainButton.iconName
+    //property alias itemMainButtonIconName: mainButton.iconName
     property alias itemSecondaryButtonText: secondaryButton.text
-    property alias itemSecondaryButtonIconName: secondaryButton.iconName
+    //property alias itemSecondaryButtonIconName: secondaryButton.iconName
     property var parentList
 
     MouseArea {
@@ -119,7 +119,7 @@ FocusScope {
         visible: topItem.height > height
         opacity: (topItem.height - height) / height
 
-        iconName: 'dialog-close'
+        //iconName: 'dialog-close'
 
         onClicked: close()
     }

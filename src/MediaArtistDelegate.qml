@@ -18,10 +18,10 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
+import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Window 2.2
-import QtQml.Models 2.1
+import QtQml.Models 2.2
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 
@@ -49,7 +49,7 @@ FocusScope {
         id: elisaTheme
     }
 
-    Action {
+    Controls1.Action {
         id: enqueueAction
 
         text: i18nc("Add all tracks from artist to play list", "Enqueue")
@@ -57,26 +57,29 @@ FocusScope {
         onTriggered: mediaServerEntry.playListModel.enqueue(mediaServerEntry.name)
     }
 
-    Action {
+    Component {
+        id: childItem
+
+        MediaArtistAlbumView {
+            playListModel: mediaServerEntry.playListModel
+            contentDirectoryModel: mediaServerEntry.contentDirectoryModel
+            playerControl: mediaServerEntry.playerControl
+            stackView: mediaServerEntry.stackView
+            artistName: name
+        }
+    }
+
+    Controls1.Action {
         id: openAction
 
         text: i18nc("Open artist view", "Open Artist")
         iconName: 'document-open-folder'
         onTriggered: {
-            stackView.push({
-                               item: Qt.resolvedUrl("MediaArtistAlbumView.qml"),
-                               properties :
-                               {
-                                   playListModel: mediaServerEntry.playListModel,
-                                   contentDirectoryModel: mediaServerEntry.contentDirectoryModel,
-                                   playerControl: mediaServerEntry.playerControl,
-                                   stackView: mediaServerEntry.stackView,
-                                   artistName: name,
-                               }})
+            stackView.push(childItem)
         }
     }
 
-    Action {
+    Controls1.Action {
         id: enqueueAndPlayAction
 
         text: i18nc("Clear play list and add all tracks from artist to play list", "Play Now and Replace Play List")
@@ -133,34 +136,109 @@ FocusScope {
                     color: myPalette.light
                     opacity: 0.85
 
-                    Row {
+                    RowLayout {
                         anchors.centerIn: parent
 
                         ToolButton {
                             id: enqueueButton
 
-                            action: enqueueAction
+                            hoverEnabled: true
 
-                            width: elisaTheme.delegateToolButtonSize
-                            height: elisaTheme.delegateToolButtonSize
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            ToolTip.visible: hovered
+                            ToolTip.text: enqueueAction.text
+
+                            enabled: enqueueAction.enabled
+
+                            onClicked: enqueueAction.trigger(this)
+
+                            contentItem: Image {
+                                source: "image://icon/" + enqueueAction.iconName
+
+                                sourceSize.width: elisaTheme.delegateToolButtonSize
+                                sourceSize.height: elisaTheme.delegateToolButtonSize
+
+                                fillMode: Image.PreserveAspectFit
+                                mirror: LayoutMirroring.enabled
+
+                                anchors.fill: parent
+                            }
+
+                            Layout.minimumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.minimumHeight: elisaTheme.delegateToolButtonSize
+                            Layout.preferredWidth: elisaTheme.delegateToolButtonSize
+                            Layout.preferredHeight: elisaTheme.delegateToolButtonSize
+                            Layout.maximumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.maximumHeight: elisaTheme.delegateToolButtonSize
                         }
 
                         ToolButton {
                             id: openButton
 
-                            action: openAction
+                            hoverEnabled: true
 
-                            width: elisaTheme.delegateToolButtonSize
-                            height: elisaTheme.delegateToolButtonSize
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            ToolTip.visible: hovered
+                            ToolTip.text: openAction.text
+
+                            enabled: openAction.enabled
+
+                            onClicked: openAction.trigger(this)
+
+                            contentItem: Image {
+                                source: "image://icon/" + openAction.iconName
+
+                                sourceSize.width: elisaTheme.delegateToolButtonSize
+                                sourceSize.height: elisaTheme.delegateToolButtonSize
+
+                                fillMode: Image.PreserveAspectFit
+                                mirror: LayoutMirroring.enabled
+
+                                anchors.fill: parent
+                            }
+
+                            Layout.minimumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.minimumHeight: elisaTheme.delegateToolButtonSize
+                            Layout.preferredWidth: elisaTheme.delegateToolButtonSize
+                            Layout.preferredHeight: elisaTheme.delegateToolButtonSize
+                            Layout.maximumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.maximumHeight: elisaTheme.delegateToolButtonSize
                         }
 
                         ToolButton {
                             id: enqueueAndPlayButton
 
-                            action: enqueueAndPlayAction
+                            hoverEnabled: true
 
-                            width: elisaTheme.delegateToolButtonSize
-                            height: elisaTheme.delegateToolButtonSize
+                            ToolTip.delay: 1000
+                            ToolTip.timeout: 5000
+                            ToolTip.visible: hovered
+                            ToolTip.text: enqueueAndPlayAction.text
+
+                            enabled: enqueueAndPlayAction.enabled
+
+                            onClicked: enqueueAndPlayAction.trigger(this)
+
+                            contentItem: Image {
+                                source: "image://icon/" + enqueueAndPlayAction.iconName
+
+                                sourceSize.width: elisaTheme.delegateToolButtonSize
+                                sourceSize.height: elisaTheme.delegateToolButtonSize
+
+                                fillMode: Image.PreserveAspectFit
+                                mirror: LayoutMirroring.enabled
+
+                                anchors.fill: parent
+                            }
+
+                            Layout.minimumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.minimumHeight: elisaTheme.delegateToolButtonSize
+                            Layout.preferredWidth: elisaTheme.delegateToolButtonSize
+                            Layout.preferredHeight: elisaTheme.delegateToolButtonSize
+                            Layout.maximumWidth: elisaTheme.delegateToolButtonSize
+                            Layout.maximumHeight: elisaTheme.delegateToolButtonSize
                         }
                     }
                 }

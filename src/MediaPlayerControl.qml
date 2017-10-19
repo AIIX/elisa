@@ -18,11 +18,9 @@
  */
 
 import QtQuick 2.9
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2 as Controls2
+import QtQuick.Controls 2.2
 import org.mgallien.QmlExtension 1.0
 
 
@@ -87,7 +85,7 @@ FocusScope {
             visible: false
         }
 
-        Controls2.RoundButton {
+        RoundButton {
             focus: skipBackwardEnabled
 
             Layout.preferredWidth: elisaTheme.smallControlButtonHeight
@@ -160,7 +158,7 @@ FocusScope {
             visible: false
         }
 
-        Controls2.RoundButton {
+        RoundButton {
             focus: playEnabled
 
             Layout.preferredWidth: elisaTheme.bigControlButtonHeight
@@ -234,7 +232,7 @@ FocusScope {
             visible: false
         }
 
-        Controls2.RoundButton {
+        RoundButton {
             focus: skipForwardEnabled
 
             Layout.preferredWidth: elisaTheme.smallControlButtonHeight
@@ -304,7 +302,7 @@ FocusScope {
             }
         }
 
-        Controls2.Slider {
+        Slider {
             property bool seekStarted: false
             property int seekValue
 
@@ -336,35 +334,6 @@ FocusScope {
                     musicWidget.seek(seekValue)
                     seekStarted = false;
                 }
-            }
-
-            background: Rectangle {
-                x: musicProgress.leftPadding
-                y: musicProgress.topPadding + musicProgress.availableHeight / 2 - height / 2
-                implicitWidth: 200
-                implicitHeight: 6
-                width: musicProgress.availableWidth
-                height: implicitHeight
-                radius: 3
-                color: myPalette.mid
-
-                Rectangle {
-                    x: (LayoutMirroring.enabled ? musicProgress.visualPosition * parent.width : 0)
-                    width: (LayoutMirroring.enabled ? parent.width - musicProgress.visualPosition * parent.width : musicProgress.visualPosition * parent.width)
-                    height: parent.height
-                    color: myPalette.highlight
-                    radius: 3
-                }
-            }
-
-            handle: Rectangle {
-                x: musicProgress.leftPadding + musicProgress.visualPosition * (musicProgress.availableWidth - width)
-                y: musicProgress.topPadding + musicProgress.availableHeight / 2 - height / 2
-                implicitWidth: 18
-                implicitHeight: 18
-                radius: 9
-                color: myPalette.button
-                border.color: musicProgress.pressed ? myPalette.highlight : myPalette.dark
             }
         }
 
@@ -415,7 +384,7 @@ FocusScope {
         }
 
 
-        Controls2.RoundButton {
+        RoundButton {
             focus: true
 
             Layout.preferredWidth: elisaTheme.smallControlButtonHeight
@@ -455,7 +424,7 @@ FocusScope {
             }
         }
 
-        Controls2.Slider {
+        Slider {
             id: volumeSlider
 
             from: 0
@@ -474,35 +443,6 @@ FocusScope {
             Layout.leftMargin: LayoutMirroring.enabled ? elisaTheme.layoutHorizontalMargin : 0
 
             width: elisaTheme.volumeSliderWidth
-
-            background: Rectangle {
-                x: volumeSlider.leftPadding
-                y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                implicitWidth: 200
-                implicitHeight: 6
-                width: volumeSlider.availableWidth
-                height: implicitHeight
-                radius: 3
-                color: myPalette.mid
-
-                Rectangle {
-                    x: (LayoutMirroring.enabled ? volumeSlider.visualPosition * parent.width : 0)
-                    width: (LayoutMirroring.enabled ? parent.width - volumeSlider.visualPosition * parent.width : volumeSlider.visualPosition * parent.width)
-                    height: parent.height
-                    color: myPalette.highlight
-                    radius: 3
-                }
-            }
-
-            handle: Rectangle {
-                x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-                y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                implicitWidth: 18
-                implicitHeight: 18
-                radius: 9
-                color: myPalette.button
-                border.color: volumeSlider.pressed ? myPalette.highlight : myPalette.dark
-            }
         }
     }
 
