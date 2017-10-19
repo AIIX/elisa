@@ -17,8 +17,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-import QtQuick 2.9
-import QtQuick.Layouts 1.1
+import QtQuick 2.7
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import org.mgallien.QmlExtension 1.0
@@ -318,7 +318,7 @@ FocusScope {
 
             enabled: musicWidget.seekable && musicWidget.playEnabled
 
-            live: true
+            //live: true
 
             onValueChanged: {
                 if (seekStarted) {
