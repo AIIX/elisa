@@ -248,7 +248,7 @@ FocusScope {
                                         0
                             isValid: model.isValid
                             isPlaying: model.isPlaying
-                            isSelected: item.DelegateModel.inSelected
+                            isSelected: playListView.currentIndex === index
                             containsMouse: item.containsMouse
 
                             playListModel: topItem.playListModel
@@ -281,6 +281,7 @@ FocusScope {
                         onClicked:
                         {
                             playListView.currentIndex = index
+                            entry.forceActiveFocus()
                         }
 
                         onRightClicked: contentItem.contextMenu.popup()
